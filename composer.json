@@ -1,0 +1,24 @@
+{
+    "name": "demmonico/yii2-config",
+    "type": "yii2-extension",
+    "description": "Yii2 component which allow get application parameters from database or default configs, import and manage them from admin panel dynamically.",
+    "keywords": ["yii", "yii2", "config", "extension", "component"],
+    "homepage": "https://github.com/demmonico/yii2-config",
+    "license": "MIT",
+    "authors": [
+        {"name": "demmonico", "email": "demmonico@gmail.com"}
+    ],
+    "require": {
+        "php": ">5.5.0",
+        "yiisoft/yii2": "~2.0.0",
+
+        "demmonico/yii2-models": "*",
+        "demmonico/yii2-helpers": "*",
+        "demmonico/yii2-traits": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "demmonico\\config\\": "src"
+        }
+    }
+}
