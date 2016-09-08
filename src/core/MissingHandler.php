@@ -4,7 +4,7 @@
  * Date: 09.02.16
  */
 
-namespace demmonico\config\base;
+namespace demmonico\config\core;
 
 use demmonico\helpers\FileHelper;
 use yii\helpers\ArrayHelper;
@@ -19,7 +19,9 @@ abstract class MissingHandler
      */
     public static $fileStorage = 'missing_configs.php';
     /**
-     * Name of folder which should contents file storage. Folder must exists!!! and should be under git ignore
+     * Name of folder which should contents file storage.
+     * TODO Folder must exists!!! and should be under git ignore
+     * @var string
      */
     public static $folderStorage = '@common/data/';
     /**
@@ -136,8 +138,8 @@ abstract class MissingHandler
     public static function getStoragePath()
     {
         $dynamicConfig = static::$config;
-        $folder = FileHelper::alias2path( isset($dynamicConfig['folderStorage']) ? $dynamicConfig['folderStorage'] : self::$folderStorage );
-        $file = isset($dynamicConfig['fileStorage']) ? $dynamicConfig['fileStorage'] : self::$fileStorage;
+        $folder = FileHelper::alias2path( isset($dynamicConfig['folderStorage']) ? $dynamicConfig['folderStorage'] : static::$folderStorage );
+        $file = isset($dynamicConfig['fileStorage']) ? $dynamicConfig['fileStorage'] : static::$fileStorage;
         return $folder.$file.('' === pathinfo($file, PATHINFO_EXTENSION) ? '.php' : '');
     }
 
@@ -181,10 +183,11 @@ abstract class MissingHandler
             );
 
             // store handler config from configurator
-            if ($event->sender && $event->sender instanceof Configurator)
+            if ($event->sender && $event->sender instanceof Configurator){
                 $handlerParams = call_user_func([get_class($event->sender), 'getHandlerConfig']);
                 if (isset($handlerParams, $handlerParams['config']))
                     static::$config = $handlerParams['config'];
+            }
         }
     }
 

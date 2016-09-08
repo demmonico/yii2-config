@@ -5,7 +5,7 @@
 
 namespace demmonico\config\admin\actions;
 
-use demmonico\config\base\Configurator;
+use demmonico\config\core\Configurator;
 use yii\base\Action;
 use yii\web\ServerErrorHttpException;
 

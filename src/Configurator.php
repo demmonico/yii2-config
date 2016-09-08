@@ -10,7 +10,7 @@ use demmonico\traits\ConstantTrait;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
 use yii\helpers\ArrayHelper;
-use demmonico\config\base\Configurator as BaseConfigurator;
+use demmonico\config\core\Configurator as BaseConfigurator;
 
 /**
  * Component Configurator works with app configs
@@ -87,9 +87,25 @@ class Configurator extends BaseConfigurator implements BootstrapInterface
     /**
      * @inheritdoc
      */
-    protected static $handlerConfig = [
+    protected static $_handler = [
         'class' => 'MissingConfigHandler',
     ];
+
+    /**
+     * Parametrize property of [_defaultConfigFile]
+     * Can be set from config file
+     * @var array
+     */
+    public $defaultConfigFile;
+    /**
+     * Path or alias to separate file with default config file.
+     * @var string
+     * @use
+     * [_defaultConfigFile] = '@common/data/default';
+     * or
+     * [_defaultConfigFile] = '@common/data/default.php';
+     */
+    protected static $_defaultConfigFile;
 
 
     /**
@@ -113,8 +129,8 @@ class Configurator extends BaseConfigurator implements BootstrapInterface
      */
     public static function loadDefaultConfigs()
     {
-        if (isset(static::$_defaultConfigFile)){
-            $file = \Yii::getAlias(static::$_defaultConfigFile);
+        if (isset(self::$_defaultConfigFile)){
+            $file = \Yii::getAlias(self::$_defaultConfigFile);
             // if extension absent - add
             if ('' === pathinfo($file, PATHINFO_EXTENSION)){
                 $file .= '.php';
@@ -123,6 +139,19 @@ class Configurator extends BaseConfigurator implements BootstrapInterface
         return (isset($file) && is_file($file)) ? require($file) : [];
     }
 
+
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+
+        // reset [_defaultConfigFile] property
+        if (isset($this->defaultConfigFile))
+            self::$_defaultConfigFile = $this->defaultConfigFile;
+    }
 
     /**
      * @inheritdoc
@@ -261,7 +290,7 @@ class Configurator extends BaseConfigurator implements BootstrapInterface
 
 
 
-use demmonico\config\base\MissingEvent;
+use demmonico\config\core\MissingEvent;
 use demmonico\helpers\ReflectionHelper;
 
 class MissingConfigEvent extends MissingEvent

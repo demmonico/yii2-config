@@ -4,7 +4,7 @@
  * Date: 09.02.16
  */
 
-namespace demmonico\config\base;
+namespace demmonico\config\core;
 
 use demmonico\models\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -39,6 +39,12 @@ abstract class Configurator extends ActiveRecord
     public $tableName;
 
     /**
+     * Parametrize property of static::$handler
+     * Can be set from config file
+     * @var array
+     */
+    public $handler;
+    /**
      * Array of event Handler properties.
      * Can be overwritten
      * @var array
@@ -48,30 +54,8 @@ abstract class Configurator extends ActiveRecord
      *      'class' => 'MissingHandler',
      * ]
      */
-    protected static $handlerConfig = [];
-    protected static $_handlerConfig;
-    /**
-     * Parametrize property of static::$handler
-     * Can be set from config file
-     * @var array
-     */
-    public $handler;
-
-    /**
-     * Path or alias to separate file with default config file.
-     * @var string
-     * @use
-     * static::$_defaultConfigFile = '@common/data/default';
-     * or
-     * static::$_defaultConfigFile = '@common/data/default.php';
-     */
-    protected static $_defaultConfigFile;
-    /**
-     * Parametrize property of static::$_defaultConfigFile
-     * Can be set from config file
-     * @var array
-     */
-    public $defaultConfigFile;
+    protected static $_handler;
+    private static $_handlerConfig;
 
 
 
@@ -121,13 +105,14 @@ abstract class Configurator extends ActiveRecord
      */
     public static function getHandlerConfig()
     {
-        if (is_null(static::$_handlerConfig)){
-            static::$_handlerConfig = array_merge([
+        $className = get_called_class();
+        if (!isset(self::$_handlerConfig[$className])){
+            self::$_handlerConfig[$className] = array_merge([
                 'class' => 'MissingHandler',
                 'config' => [],
-            ], static::$handlerConfig);
+            ], !empty(static::$_handler) && is_array(static::$_handler) ? static::$_handler : []);
         }
-        return static::$_handlerConfig;
+        return self::$_handlerConfig[$className];
     }
 
 
@@ -139,17 +124,18 @@ abstract class Configurator extends ActiveRecord
     {
         parent::init();
 
+
         // reset static::$tableName property
         if (isset($this->tableName))
             static::$_tableName = $this->tableName;
 
         // reset static::$handler property
-        if (isset($this->handler) && is_array($this->handler))
-            static::$handlerConfig = array_merge(static::$handlerConfig, $this->handler);
-
-        // reset static::$_defaultConfigFile property
-        if (isset($this->defaultConfigFile))
-            static::$_defaultConfigFile = $this->defaultConfigFile;
+        if (isset($this->handler) && is_array($this->handler)){
+            static::$_handler = array_merge(
+                !empty(static::$_handler) && is_array(static::$_handler) ? static::$_handler : [],
+                $this->handler
+            );
+        }
 
 
         // init events
@@ -178,6 +164,7 @@ abstract class Configurator extends ActiveRecord
 
 
     /**
+     * Prepare event, handler and throw missing event
      * @param $key
      * @param array $attributes
      */
@@ -196,6 +183,7 @@ abstract class Configurator extends ActiveRecord
     }
 
     /**
+     * Throw exception
      * @param $key
      * @throws \Exception
      */

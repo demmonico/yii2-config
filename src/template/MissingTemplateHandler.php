@@ -4,28 +4,33 @@
  * Date: 09.02.16
  */
 
-namespace demmonico\config;
+namespace demmonico\template;
 
 use demmonico\config\core\MissingEvent;
 use demmonico\config\core\MissingHandler;
 
 
-class MissingConfigHandler extends MissingHandler
+class MissingTemplateHandler extends MissingHandler
 {
+    /**
+     * @inheritdoc
+     */
+    public static $fileStorage = 'missing_templates.php';
+
     /**
      * @inheritdoc
      */
     public static function parseAttributes(MissingEvent $event)
     {
         /**
-         * @var MissingConfigEvent $event
+         * @var MissingTemplateEvent $event
          */
         return [
             $event->key => [
                 'key'   => $event->key,
-                'value' => $event->value,
-                'type'  => $event->type,
+                'template' => $event->template,
             ]
         ];
     }
+
 }
