@@ -2,13 +2,13 @@
 
 ##Description
 
-Yii2 extension which allows to get application parameters or text templates from database tables or from default config, 
-to import and to manage them from admin panel dynamically.
+Yii2 extension which allows to get application parameters, text or email templates from database tables or from default config, to import and to manage them from admin panel dynamically.
 
 This extension contains following components:
 
 1) Config component
 2) Template engine component
+3) Email template engine and composer engine component
 
 
 
@@ -31,6 +31,7 @@ This extension contains following components:
                 - [Bootstraps of components](#bootstraps-of-components)
         - [Backend](#backend)
 - [Template engine component](#template-engine-component)
+- [Email template engine and composer engine component](#email-template-engine-and-composer-engine-component)
 
 
 
@@ -46,7 +47,7 @@ or add dependency at composer.json in "require" section
 ```
 
 2) Create DB tables for config storage and templates storage manually 
-or using migration mechanism (copy files `demo/tbl_config.php` and `demo/tbl_template.php` to `migrations` folder).
+or using migration mechanism (copy files `demo/tbl_config.php`, `demo/tbl_template.php` and `demo/tbl_email_template.php` to `migrations` folder).
 
 
 
@@ -308,3 +309,42 @@ If template doesn't exists at DB table it will be added to missing template file
 After that web application administrator can import missing templates into DB table and modify them.
 
 Other processes are similar to Config component's processes.
+
+
+
+##Email template engine and composer engine component
+
+Allows to get email params like subject, template's name from DB and then use template from prepared the file store 
+(where it can be modified from backend by admin) or if it doesn't exists then from mail template source file. 
+
+Configuring process is very similar with Config component except name of class - use `demmonico\template\Mailer`.
+
+Usage process is very similar to [get param of config application](#get-param-of-config-application).
+Getter sequentially passes following steps. If it finds out value the pass breaks. 
+Flow here:
+- internal class variable (use if this param had been requested)
+- DB table (use `tableName` table)
+- template source file at `mailerComponentViewPath` folder
+In the end, if no template will be found then Exception will be throwed.
+
+```php
+\Yii::$app->setTemplate('email_key')->setTo('email')->send();
+```
+or more detail
+```php
+\Yii::$app->email
+    ->setTemplate('test-html.php')
+    ->setTo('demmonico@gmail.com')
+    ->setFrom('admin@localhost')
+    ->setSubject('Your account on ' . $appName)
+    ->setParams(['user' => $this, 'appName' => $appName])
+    ->send();
+```
+If template doesn't exists at DB table it will be added to missing template file by handler (`fileStorage`).
+After that web application administrator can import missing templates into DB table and modify them.
+
+If param `redirectEmail` will be configured then all emails will be redirected to this email (field `to` will be ignored).
+If param `isTransferEnabled` is set to **false** then mailer's option `useFileTransport` will be set to **true** instead of real transfer mail.
+
+Other processes are similar to Config component's processes.
+

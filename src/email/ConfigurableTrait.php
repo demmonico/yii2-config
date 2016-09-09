@@ -4,13 +4,13 @@
  * 06.09.16
  */
 
-// TODO set right namespace
-//namespace namespaceOfCurrentComponent;
+namespace demmonico\email;
 
 /**
  * Trait ConfigurableTrait implements Yii2 Configurable interface and
  * automatic loading config params from Yii2 config component ( @see https://github.com/demmonico/yii2-config )
  * @author: dep
+ * @package demmonico\email
  *
  * @use
  * In class which should implements Yii2 Configurable interface and/or Yii2 config component load:

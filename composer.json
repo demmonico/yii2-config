@@ -1,8 +1,8 @@
 {
     "name": "demmonico/yii2-config",
     "type": "yii2-extension",
-    "description": "Yii2 component which allow get application parameters and templates from database or default configs, import and manage them from admin panel dynamically.",
-    "keywords": ["yii", "yii2", "config", "template", "template engine", "extension", "component"],
+    "description": "Yii2 extension which allows to get application parameters, text or email templates from database tables or from default config, to import and to manage them from admin panel dynamically.",
+    "keywords": ["yii", "yii2", "config", "template", "template engine", "email", "mailer", "extension", "component"],
     "homepage": "https://github.com/demmonico/yii2-config",
     "license": "MIT",
     "authors": [
@@ -19,7 +19,8 @@
     "autoload": {
         "psr-4": {
             "demmonico\\config\\": "src",
-            "demmonico\\template\\": "src/template"
+            "demmonico\\template\\": "src/template",
+            "demmonico\\email\\": "src/email"
         }
     }
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @author: dep
- * Date: 09.02.16
+ * Date: 08.09.16
  */
 
 namespace demmonico\template;
@@ -53,7 +53,7 @@ class TemplateEngine extends BaseConfigurator
     /**
      * @inheritdoc
      */
-    protected static $_tableName = '{{%templates}}';
+    protected static $_tableName = '{{%template}}';
 
     /**
      * @inheritdoc
