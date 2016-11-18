@@ -63,24 +63,25 @@ trait ConfigurableTrait
                 // if config passes in yii2 config component format
                 if (is_array($v) && sizeof($v) == 2 && isset($v['component'])
                     // and if exists pointed yii2 config component
-                    && isset(\Yii::$app->{$v['component']})
+                    && \Yii::$app->has($v['component'])
                 ) {
-                    $componentName = $v['component'];
+                    $component = \Yii::$app->{$v['component']};
                     unset($v['component']);
 
                     // get value from yii2 config component without default value
                     $key = key($v);
                     if (is_int( $key )){
-                        $this->$k = \Yii::$app->{$componentName}->get( current($v) );
-
+                        $this->$k = $component->get( current($v) );
+                    }
                     // get value from yii2 config component with default value
-                    } else {
-                        $this->$k = \Yii::$app->{$componentName}->get($key, current($v));
+                    else {
+                        $this->$k = $component->get($key, current($v));
                     }
 
+                }
 
                 // default configurable behavior
-                } else {
+                else {
                     $this->$k = $v;
                 }
             }
