@@ -10,11 +10,11 @@
     ],
     "require": {
         "php": ">5.5.0",
-        "yiisoft/yii2": "~2.0.0",
+        "yiisoft/yii2": "^2.0.0",
 
         "demmonico/yii2-models": "*",
         "demmonico/yii2-helpers": "*",
-        "demmonico/yii2-traits": "*"
+        "demmonico/reflection": "^2.0.0"
     },
     "autoload": {
         "psr-4": {

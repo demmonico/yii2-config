@@ -39,7 +39,7 @@ abstract class Configurator extends ActiveRecord
     public $tableName;
 
     /**
-     * Parametrize property of static::$handler
+     * Parametrize property of static::$handlerActiveRecord
      * Can be set from config file
      * @var array
      */

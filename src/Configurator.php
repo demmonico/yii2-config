@@ -6,7 +6,7 @@
 
 namespace demmonico\config;
 
-use demmonico\traits\ConstantTrait;
+use demmonico\reflection\ConstantTrait;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
 use yii\helpers\ArrayHelper;
@@ -291,7 +291,7 @@ class Configurator extends BaseConfigurator implements BootstrapInterface
 
 
 use demmonico\config\core\MissingEvent;
-use demmonico\helpers\ReflectionHelper;
+use demmonico\reflection\ReflectionHelper;
 
 class MissingConfigEvent extends MissingEvent
 {

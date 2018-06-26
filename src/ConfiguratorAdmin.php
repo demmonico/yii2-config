@@ -6,7 +6,7 @@
 namespace demmonico\config;
 
 use demmonico\config\admin\ConfiguratorAdminTrait;
-use demmonico\helpers\ReflectionHelper;
+use demmonico\reflection\ReflectionHelper;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\validators\Validator;
