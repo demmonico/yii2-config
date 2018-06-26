@@ -1,6 +1,6 @@
-#Yii2 extension - Config
+# Yii2 extension - Config
 
-##Description
+## Description
 
 Yii2 extension which allows to get application parameters, text or email templates from database tables or from default config, to import and to manage them from admin panel dynamically.
 
@@ -12,7 +12,7 @@ This extension contains following components:
 
 
 
-##Contents
+## Contents
 
 - [Description](#description)
 - [Install](#install)
@@ -35,9 +35,10 @@ This extension contains following components:
 
 
 
-##Install
+## Install
 
 1) Get from composer
+
 ```php
 composer require demmonico/yii2-config
 ```
@@ -51,7 +52,7 @@ or using migration mechanism (copy files `demo/tbl_config.php`, `demo/tbl_templa
 
 
 
-##Config component
+## Config component
 
 Allows to get params from database table or if it doesn't exists then from following source:
 - directly from method call param
@@ -65,9 +66,10 @@ Allows to set params while initializing any components:
 
 
 
-###Configure
+### Configure
 
-####Simple setup
+#### Simple setup
+
 ```php
 return [
     //...
@@ -79,7 +81,8 @@ return [
 ```
 
 
-####Flexible setup
+#### Flexible setup
+
 There are several params of Configurator class which can be modified:
 - class (`class`)
 - name of config storage DB table (`tableName`)
@@ -100,7 +103,8 @@ return [
 ```
 
 
-####Configure of event handler
+#### Configure of event handler
+
 There are several params of component class which can be modified:
 - class (`class`)
 - filename of missing storage (`fileStorage`)
@@ -132,7 +136,7 @@ return [
 
 
 
-###Usage
+### Usage
 
 Possibility of modifying system configs and templates by web application admin is target of this extension so all usages will realize modify function.
 
@@ -141,9 +145,9 @@ Do not use `appconfig` as `moduleName`. This is reserved.
 
 
 
-####Frontend
+#### Frontend
 
-#####Get param of config application
+##### Get param of config application
 
 Get application config param from DB or `\Yii::$app->params` array.
 
@@ -171,7 +175,7 @@ If some config param need more secure level of setup you can use local param fil
 
 
 
-#####Get array of config's parameters by key's mask
+##### Get array of config's parameters by key's mask
 
 Get array of config's parameters by key's mask from DB.
 
@@ -197,7 +201,7 @@ will return all params linked with `someModule`:
 
 
 
-#####Get application's param
+##### Get application's param
 
 Get application param from DB or `\Yii::$app`.
 ```php
@@ -211,9 +215,9 @@ will return your application name storing at DB or if it absent directly from ap
 
 
 
-#####Using Configurator for configuring other components
+##### Using Configurator for configuring other components
 
-######Modify config file directly
+###### Modify config file directly
 
 Configurator can be used for pre-configuring other components at config file directly.
 These components should contain and use `ConfigurableTrait` (example see at `demo`).
@@ -230,7 +234,7 @@ For example configuring sms component with `sms.senderNumber` param:
 ],
 ```
 
-######Bootstraps of components
+###### Bootstraps of components
 
 Either Configurator can pre-configure other component implementing bootstrap interface.
 
@@ -270,7 +274,7 @@ either add `cloud_amazons3_key`, `cloud_amazons3_secret` to local params to prot
 
 
 
-####Backend
+#### Backend
 
 In backend part should be used `ConfiguratorAdmin` class or inheritances. 
 It use `ConfiguratorAdminTrait` which allow import missing config from `fileStorage` file or default config from `defaultConfigFile` file (if exists).
@@ -283,7 +287,7 @@ Administrator of the web application can:
 
 
 
-##Template engine component
+## Template engine component
 
 Allows to get template from database table or if it doesn't exists then from template source file. 
 Before return it replaces all matches of template variables.
@@ -312,7 +316,7 @@ Other processes are similar to Config component's processes.
 
 
 
-##Email template engine and composer engine component
+## Email template engine and composer engine component
 
 Allows to get email params like subject, template's name from DB and then use template from prepared the file store 
 (where it can be modified from backend by admin) or if it doesn't exists then from mail template source file. 
